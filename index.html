@@ -9,16 +9,16 @@
 </head>
 <body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen px-4">
 
- <!-- Popup -->
-    <div id="popup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-        <div class="bg-white text-gray-900 p-6 rounded-lg shadow-lg w-11/12 max-w-md text-center">
-            <h2 class="text-xl font-semibold mb-4">Join TheDealsMaster on Telegram for Best Deals!</h2>
-            <div class="flex justify-center gap-4">
-                <button id="okButton" class="px-6 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600">OK</button>
-                <button id="cancelButton" class="px-6 py-2 bg-gray-300 text-gray-900 rounded-lg shadow hover:bg-gray-400">Cancel</button>
-            </div>
+<!-- Popup -->
+<div id="popup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white text-gray-900 p-6 rounded-lg shadow-lg w-11/12 max-w-md text-center">
+        <h2 class="text-xl font-semibold mb-4">Join TheDealsMaster on Telegram for Best Deals!</h2>
+        <div class="flex justify-center gap-4">
+            <button id="okButton" class="px-6 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600">OK</button>
+            <button id="cancelButton" class="px-6 py-2 bg-gray-300 text-gray-900 rounded-lg shadow hover:bg-gray-400">Cancel</button>
         </div>
     </div>
+</div>
 
     <!-- Video Player -->
     <div class="w-full max-w-3xl mt-6 p-4 bg-black rounded-xl shadow-xl">
@@ -112,6 +112,23 @@
             document.getElementById("sunrisersProgress").style.width = sunrisersPercentage + "%";
             document.getElementById("rajasthanProgress").style.width = rajasthanPercentage + "%";
         }
+
+        // Show popup when the page loads
+   window.onload = function () {
+        setTimeout(() => {
+            document.getElementById("popup").classList.remove("hidden");
+        }, 1000); // Delay popup by 1 second to ensure page loads properly
+    };
+
+    // Redirect to Telegram when OK is clicked
+    document.getElementById("okButton").addEventListener("click", function () {
+        window.location.href = "https://t.me/+sGRz3K6wPHM1ZmRl";
+    });
+
+    // Close popup when Cancel is clicked
+    document.getElementById("cancelButton").addEventListener("click", function () {
+        document.getElementById("popup").classList.add("hidden");
+    });
 
         // Voting functionality
         document.getElementById("sunrisersButton").onclick = function() {
