@@ -5,80 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live IPL Streaming</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Show Telegram popup
-            setTimeout(() => {
-                if (confirm("Join TheDealsMaster on Telegram for Best Deals?")) {
-                    window.location.href = "https://t.me/+sGRz3K6wPHM1ZmRl";
-                }
-            }, 1000);
-        });
-
-        function reportBrokenLink() {
-            fetch("https://api.telegram.org/botYOUR_BOT_TOKEN/sendMessage", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ chat_id: "YOUR_CHAT_ID", text: "Broken Link Reported!" })
-            });
-            alert("Thanks for reporting! We'll fix it soon.");
-        }
-
-        function shareLink() {
-            navigator.share({
-                title: "Live IPL Streaming",
-                text: "Check out this live match streaming links only on Telegram: ",
-                url: "https://t.me/IPl_Stream"
-            });
-        }
-    </script>
 </head>
-<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen p-4">
-    
-    <!-- Poll Section -->
-    <div class="w-3/4 text-center p-6 bg-gray-800 rounded-xl shadow-xl">
-        <h2 class="text-2xl font-bold mb-4 text-blue-400">Who Will Win?</h2>
-        <div id="poll-results" class="text-lg"></div>
-    </div>
-    
-    <!-- Join Telegram Box -->
-    <div class="w-3/4 text-center p-6 bg-gradient-to-r from-blue-600 to-purple-800 rounded-xl shadow-xl mt-6">
-        <h2 class="text-3xl font-bold mb-4">🔥 Join Telegram 🔥</h2>
-        <p class="text-lg mb-4">Exclusive IPL Updates & Deals</p>
-        <a href="https://t.me/+sGRz3K6wPHM1ZmRl" class="text-xl font-bold px-6 py-3 bg-yellow-400 text-gray-900 rounded-full shadow-lg">Join Now</a>
-    </div>
-    
-    <!-- Report Broken Links Button -->
-    <button onclick="reportBrokenLink()" class="mt-6 px-6 py-3 bg-red-500 text-white font-bold rounded-lg">Report Broken Link</button>
-    
-    <!-- Share Button -->
-    <div class="w-3/4 text-center p-6 bg-gray-700 rounded-xl shadow-xl mt-6">
-        <h2 class="text-xl font-bold">Copy Link & Open in Chrome Browser Only</h2>
-        <button onclick="shareLink()" class="mt-4 px-6 py-3 bg-green-500 text-white font-bold rounded-lg">Click Here to Share This Page Link 😍</button>
-    </div>
-    
-    <!-- Live Visitor Count -->
-    <div class="mt-6 p-4 bg-gray-800 rounded-xl shadow-xl text-center">
-        <h2 class="text-xl font-bold">Live Visitors: <span id="visitorCount">...</span></h2>
-    </div>
-    
-    <script>
-        async function updatePoll() {
-            const response = await fetch("https://your-free-poll-api.com");
-            const data = await response.json();
-            document.getElementById("poll-results").innerHTML = `
-                <p>RCB: ${data.rcb}%</p>
-                <p>KKR: ${data.kkr}%</p>
-            `;
-        }
-        setInterval(updatePoll, 30000);
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen">
 
-        async function updateVisitors() {
-            const response = await fetch("https://api.countapi.xyz/hit/your-unique-key");
-            const data = await response.json();
-            document.getElementById("visitorCount").innerText = data.value;
+    <!-- Video Player -->
+    <div class="w-full mt-6 p-4 bg-black rounded-xl shadow-xl">
+        <h2 class="text-xl font-semibold text-blue-400 mb-2">Live IPL Streaming</h2>
+        <video id="videoPlayer" class="w-full rounded-lg shadow-lg" controls autoplay>
+            <source src="https://v18tataplaysyndication.akamaized.net/bpk-tv/Sports18_1_HD_voot_MOB/output03/hdntl=exp=1742737928~acl=%2f*~data=hdntl~hmac=997439ed3aa23998094bf472b25ff9f25932e5a336ab2b96eb0ca41de41292a7/Sports18_1_HD_voot_MOB-audio_108038_eng=108000-video=2297600.m3u8" type="application/x-mpegURL">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Report Broken Links Button (Small & Below Video) -->
+    <div class="absolute bottom-4 right-4">
+        <button onclick="reportBrokenLink()" class="px-3 py-1 text-xs bg-red-600 text-white rounded shadow-md hover:bg-red-700">Report Broken Link</button>
+    </div>
+
+    <!-- Poll Section -->
+    <div class="w-3/4 text-center p-6 bg-gray-800 rounded-xl shadow-xl mt-6">
+        <h2 class="text-xl font-semibold text-blue-400 mb-2">Vote for Today's Match</h2>
+        <p class="text-lg text-white mb-4">Who will win?</p>
+        <button onclick="vote('team1')" class="px-4 py-2 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-300">Team 1</button>
+        <button onclick="vote('team2')" class="px-4 py-2 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 transition duration-300 ml-4">Team 2</button>
+        <p id="poll-results" class="text-lg text-white mt-4">Updating...</p>
+    </div>
+
+    <script>
+        function vote(team) {
+            let lastVoteTime = localStorage.getItem('lastVoteTime') || 0;
+            let currentTime = new Date().getTime();
+            if (currentTime - lastVoteTime < 10000) {
+                alert('You can vote again after 10 seconds!');
+                return;
+            }
+            localStorage.setItem('lastVoteTime', currentTime);
+            fetch(`https://your-free-poll-api.com/vote?team=${team}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('poll-results').innerText = `Team 1: ${data.team1}% | Team 2: ${data.team2}%`;
+                });
         }
-        updateVisitors();
+        setInterval(() => {
+            fetch(`https://your-free-poll-api.com/results`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('poll-results').innerText = `Team 1: ${data.team1}% | Team 2: ${data.team2}%`;
+                });
+        }, 30000);
     </script>
 </body>
 </html>
