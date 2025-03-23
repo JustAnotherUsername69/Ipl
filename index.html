@@ -35,6 +35,11 @@
     <div class="w-full max-w-3xl mt-6 p-6 bg-gray-800 rounded-xl shadow-xl">
         <h2 class="text-xl sm:text-2xl font-bold mb-4 text-yellow-400 text-center">🚀 Who Will Win?</h2>
         
+        <!-- Display Total Votes -->
+        <div class="absolute top-6 right-6 text-white text-lg font-semibold" id="totalVotes">
+            Total Votes: 0
+        </div>
+
         <!-- Poll Options -->
         <div class="w-full bg-black rounded-lg shadow-xl p-4">
             <div class="flex flex-col gap-6">
@@ -97,7 +102,10 @@
         let sunrisersVotes = localStorage.getItem("sunrisersVotes") ? parseInt(localStorage.getItem("sunrisersVotes")) : 0;
         let rajasthanVotes = localStorage.getItem("rajasthanVotes") ? parseInt(localStorage.getItem("rajasthanVotes")) : 0;
 
-        // Update poll progress based on current votes
+        // Total votes will be the sum of sunrisersVotes and rajasthanVotes
+        let totalVotes = sunrisersVotes + rajasthanVotes;
+
+        // Function to update the progress bar and total votes
         function updatePoll() {
             const totalVotes = sunrisersVotes + rajasthanVotes;
             const sunrisersPercentage = totalVotes > 0 ? (sunrisersVotes / totalVotes) * 100 : 0;
@@ -105,18 +113,25 @@
 
             document.getElementById("sunrisersProgress").style.width = sunrisersPercentage + "%";
             document.getElementById("rajasthanProgress").style.width = rajasthanPercentage + "%";
+
+            // Update the total votes display
+            document.getElementById("totalVotes").textContent = `Total Votes: ${totalVotes}`;
         }
 
         // Voting functionality
         document.getElementById("sunrisersButton").onclick = function() {
             sunrisersVotes++;
             localStorage.setItem("sunrisersVotes", sunrisersVotes); // Save votes in localStorage
+            totalVotes++; // Increment total votes
+            localStorage.setItem("totalVotes", totalVotes); // Save total votes
             updatePoll(); // Update progress bar
         };
 
         document.getElementById("rajasthanRoyalsButton").onclick = function() {
             rajasthanVotes++;
             localStorage.setItem("rajasthanVotes", rajasthanVotes); // Save votes in localStorage
+            totalVotes++; // Increment total votes
+            localStorage.setItem("totalVotes", totalVotes); // Save total votes
             updatePoll(); // Update progress bar
         };
 
