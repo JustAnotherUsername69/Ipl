@@ -27,8 +27,8 @@
         <h2 class="text-xl font-semibold text-blue-400 mb-2">Vote for Today's Match</h2>
         <p class="text-lg text-white mb-4">Who will win?</p>
         <div class="flex justify-center space-x-4">
-            <button onclick="vote('team1')" class="px-6 py-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-300">Team 1</button>
-            <button onclick="vote('team2')" class="px-6 py-3 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 transition duration-300">Team 2</button>
+            <button onclick="vote('SRH')" class="px-6 py-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-300">Team 1</button>
+            <button onclick="vote('RR')" class="px-6 py-3 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 transition duration-300">Team 2</button>
         </div>
         <p id="poll-results" class="text-lg text-white mt-4">Fetching results...</p>
     </div>
@@ -39,7 +39,7 @@
         <p class="text-lg text-white mb-4">Exclusive IPL Updates & Deals</p>
         <div class="flex justify-center space-x-4">
             <a href="https://t.me/+sGRz3K6wPHM1ZmRl" target="_blank" class="text-lg font-bold px-6 py-3 bg-yellow-400 text-gray-900 rounded-full shadow-lg hover:bg-yellow-500 transition duration-300">TheDealsMaster</a>
-            <a href="https://t.me/IPL_Stream" target="_blank" class="text-lg font-bold px-6 py-3 bg-green-400 text-gray-900 rounded-full shadow-lg hover:bg-green-500 transition duration-300">More IPL Links</a>
+            <a href="https://t.me/IPL_Stream" target="_blank" class="text-lg font-bold px-6 py-3 bg-green-400 text-gray-900 rounded-full shadow-lg hover:bg-green-500 transition duration-300">IPL Links</a>
         </div>
     </div>
 
@@ -52,7 +52,7 @@
     <script>
         function reportBrokenLink() {
             alert("Broken link reported!");
-            fetch("https://api.telegram.org/botYOUR_BOT_TOKEN/sendMessage?chat_id=YOUR_CHAT_ID&text=Broken Link Reported");
+            fetch("https://api.telegram.org/bot8072988182:AAGqwl2heCQZnlYhu7TsvyT_4ZNAwSbGbuU/sendMessage?chat_id=-1001140305679&text=Broken Link Reported");
         }
 
         function vote(team) {
@@ -66,7 +66,7 @@
             fetch(`https://your-free-poll-api.com/vote?team=${team}`)
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('poll-results').innerText = `Team 1: ${data.team1}% | Team 2: ${data.team2}%`;
+                    document.getElementById('poll-results').innerText = `Team 1: ${data.SRH}% | Team 2: ${data.RR}%`;
                 });
         }
 
@@ -74,7 +74,7 @@
             fetch(`https://your-free-poll-api.com/results`)
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('poll-results').innerText = `Team 1: ${data.team1}% | Team 2: ${data.team2}%`;
+                    document.getElementById('poll-results').innerText = `Team 1: ${data.SRH}% | Team 2: ${data.RR}%`;
                 });
         }, 30000);
 
