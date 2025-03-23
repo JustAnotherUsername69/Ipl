@@ -70,6 +70,33 @@
         </div>
     </div>
 
+    <!-- Join Telegram Box -->
+    <div class="w-full max-w-3xl text-center p-6 bg-gradient-to-r from-blue-600 to-purple-800 rounded-xl shadow-xl mt-6">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-white">🔥 Join Telegram 🔥</h2>
+        <p class="text-md sm:text-lg text-white mb-4">Exclusive IPL Updates & Deals</p>
+        
+        <!-- Buttons Side by Side -->
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="https://t.me/+sGRz3K6wPHM1ZmRl" target="_blank" 
+               class="w-full sm:w-auto text-lg font-bold px-6 py-3 bg-yellow-400 text-gray-900 rounded-full shadow-lg hover:bg-yellow-500 transition duration-300 text-center">
+                TheDealsMaster
+            </a>
+
+            <a href="https://t.me/IPL_Stream" target="_blank" 
+               class="w-full sm:w-auto text-lg font-bold px-6 py-3 bg-green-400 text-gray-900 rounded-full shadow-lg hover:bg-green-500 transition duration-300 text-center">
+                More IPL Links
+            </a>
+        </div>
+    </div>
+
+    <!-- Copy Link & Share Section -->
+    <div class="w-full max-w-3xl text-center p-6 bg-gray-800 rounded-xl shadow-xl mt-6">
+        <h2 class="text-xl sm:text-2xl font-bold mb-4 text-yellow-400">📢 Copy Link & Open in Chrome Browser Only</h2>
+        <button id="shareButton" class="w-full sm:w-auto text-lg font-bold px-6 py-3 bg-pink-500 text-white rounded-full shadow-lg hover:bg-pink-600 transition duration-300">
+            Click Here to Share This Page Link 😍
+        </button>
+    </div>
+
     <script>
         // Initialize vote data from localStorage (if available)
         let sunrisersVotes = localStorage.getItem("sunrisersVotes") ? parseInt(localStorage.getItem("sunrisersVotes")) : 0;
@@ -138,6 +165,23 @@
 
         // Call the function to display matches
         displayUpcomingMatches();
+
+        // Share Button Functionality
+        document.getElementById("shareButton").onclick = function() {
+            if (navigator.share) {
+                navigator.share({
+                    title: "Live IPL Streaming",
+                    text: "Check out this live match streaming links only on Telegram channel:",
+                    url: "https://t.me/IPL_Stream"
+                }).then(() => {
+                    console.log("Shared successfully");
+                }).catch((error) => {
+                    console.error("Error sharing:", error);
+                });
+            } else {
+                alert("Sharing is not supported on this browser.");
+            }
+        };
     </script>
 
 </body>
