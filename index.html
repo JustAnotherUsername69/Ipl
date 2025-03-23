@@ -39,28 +39,49 @@
         <div id="countdown" class="text-2xl font-bold text-white">00:00:00</div>
     </div>
 
-    <!-- Match Stats and Prediction -->
+    <!-- Live Poll: Who Will Win? -->
     <div class="w-full max-w-3xl mt-6 p-6 bg-gray-800 rounded-xl shadow-xl">
-        <h2 class="text-xl sm:text-2xl font-bold mb-4 text-yellow-400 text-center">🚀 SRH vs RR - Predict the Winner!</h2>
+        <h2 class="text-xl sm:text-2xl font-bold mb-4 text-yellow-400 text-center">🚀 Who Will Win?</h2>
         
-        <div class="flex flex-wrap justify-around gap-4">
-            <!-- SRH Prediction -->
-            <div class="text-center w-full sm:w-1/2">
-                <button id="srhButton" class="w-48 py-4 text-lg font-bold text-white rounded-lg shadow-lg bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 transition-all duration-300">
-                    Sunrisers Hyderabad
-                </button>
-            </div>
+        <!-- Poll Options -->
+        <div class="w-full bg-black rounded-lg shadow-xl p-4">
+            <div class="flex flex-col gap-6">
+                <!-- Sunrisers Hyderabad Option -->
+                <div class="w-full p-4">
+                    <div class="relative">
+                        <button id="sunrisersButton" class="w-full py-4 text-lg font-bold text-white rounded-lg shadow-lg bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 transition-all duration-300">
+                            Sunrisers Hyderabad
+                        </button>
+                        <div class="w-full bg-gray-300 rounded-full h-3 mt-2">
+                            <div id="sunrisersProgress" class="h-3 bg-orange-500 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- RR Prediction -->
-            <div class="text-center w-full sm:w-1/2">
-                <button id="rrButton" class="w-48 py-4 text-lg font-bold text-white rounded-lg shadow-lg bg-pink-500 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-400 transition-all duration-300">
-                    Rajasthan Royals
-                </button>
+                <!-- Rajasthan Royals Option -->
+                <div class="w-full p-4">
+                    <div class="relative">
+                        <button id="rajasthanRoyalsButton" class="w-full py-4 text-lg font-bold text-white rounded-lg shadow-lg bg-pink-500 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-400 mt-4">
+                            Rajasthan Royals
+                        </button>
+                        <div class="w-full bg-gray-300 rounded-full h-3 mt-2">
+                            <div id="rajasthanProgress" class="h-3 bg-pink-500 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <div id="predictionResult" class="mt-4 text-lg font-semibold text-white hidden">
-            <p class="text-center">Your prediction has been recorded!</p>
+        <div id="totalVotes" class="text-white text-center mt-4">
+            Total Votes: 0
+        </div>
+    </div>
+
+    <!-- Upcoming Matches -->
+    <div class="w-full max-w-3xl mt-6 p-6 bg-gray-800 rounded-xl shadow-xl text-center">
+        <h2 class="text-xl sm:text-2xl font-bold mb-4 text-yellow-400">📅 Upcoming Matches</h2>
+        <div class="text-white">
+            <p>March 25, 2025: Delhi Capitals vs Kolkata Knight Riders</p>
+            <p>March 27, 2025: Mumbai Indians vs Chennai Super Kings</p>
         </div>
     </div>
 
@@ -83,21 +104,8 @@
         </div>
     </div>
 
-    <!-- Social Media Sharing -->
-    <div class="w-full max-w-3xl text-center p-6 bg-gray-800 rounded-xl shadow-xl mt-6">
-        <h2 class="text-xl sm:text-2xl font-bold mb-4 text-yellow-400">📢 Share This Page & Join the Fun!</h2>
-        <div class="flex justify-center gap-4">
-            <a href="https://twitter.com/share?url=https://example.com&text=Check%20out%20this%20live%20IPL%20streaming!" class="text-white font-semibold px-4 py-2 bg-blue-500 rounded-full shadow-lg hover:bg-blue-600 transition duration-300">
-                Share on Twitter
-            </a>
-            <a href="https://www.facebook.com/sharer/sharer.php?u=https://example.com" class="text-white font-semibold px-4 py-2 bg-blue-700 rounded-full shadow-lg hover:bg-blue-800 transition duration-300">
-                Share on Facebook
-            </a>
-        </div>
-    </div>
-
     <script>
-        // Match Countdown Timer
+        // Countdown Timer
         const countdownElement = document.getElementById("countdown");
         const matchTime = new Date("2025-03-23T15:30:00Z"); // Set match date/time (example)
         function updateCountdown() {
@@ -113,16 +121,29 @@
         }
         setInterval(updateCountdown, 1000);
 
-        // Prediction Buttons
-        document.getElementById("srhButton").onclick = function() {
-            document.getElementById("predictionResult").classList.remove("hidden");
-            document.getElementById("predictionResult").textContent = "You predicted SRH will win!";
+        // Voting Functionality (Firebase for live poll)
+        let sunrisersVotes = 0;
+        let rajasthanVotes = 0;
+
+        document.getElementById("sunrisersButton").onclick = function() {
+            sunrisersVotes++;
+            updateVotes();
         };
 
-        document.getElementById("rrButton").onclick = function() {
-            document.getElementById("predictionResult").classList.remove("hidden");
-            document.getElementById("predictionResult").textContent = "You predicted RR will win!";
+        document.getElementById("rajasthanRoyalsButton").onclick = function() {
+            rajasthanVotes++;
+            updateVotes();
         };
+
+        function updateVotes() {
+            const totalVotes = sunrisersVotes + rajasthanVotes;
+            const sunrisersPercentage = (sunrisersVotes / totalVotes) * 100 || 0;
+            const rajasthanPercentage = (rajasthanVotes / totalVotes) * 100 || 0;
+
+            document.getElementById("sunrisersProgress").style.width = sunrisersPercentage + "%";
+            document.getElementById("rajasthanProgress").style.width = rajasthanPercentage + "%";
+            document.getElementById("totalVotes").textContent = `Total Votes: ${totalVotes}`;
+        }
     </script>
 
 </body>
