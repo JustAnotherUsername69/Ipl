@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live IPL Streaming: SRH vs RR</title>
+    <title>Live IPL Streaming</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen px-4">
@@ -24,7 +22,7 @@
 
     <!-- Video Player -->
     <div class="w-full max-w-3xl mt-6 p-4 bg-black rounded-xl shadow-xl">
-        <h2 class="text-lg sm:text-xl font-semibold text-blue-400 mb-2 text-center">📺 Live IPL Streaming: SRH vs RR</h2>
+        <h2 class="text-lg sm:text-xl font-semibold text-blue-400 mb-2 text-center">📺 Live IPL Streaming</h2>
         <div class="relative w-full">
             <video id="videoPlayer" class="w-full h-auto rounded-lg shadow-lg" controls autoplay>
                 <source src="https://v18tataplaysyndication.akamaized.net/bpk-tv/Sports18_1_HD_voot_MOB/output03/hdntl=exp=1742737928~acl=%2f*~data=hdntl~hmac=997439ed3aa23998094bf472b25ff9f25932e5a336ab2b96eb0ca41de41292a7/Sports18_1_HD_voot_MOB-audio_108038_eng=108000-video=2297600.m3u8" type="application/x-mpegURL">
@@ -33,117 +31,113 @@
         </div>
     </div>
 
-    <!-- Match Countdown Timer -->
-    <div class="w-full max-w-3xl mt-6 p-6 bg-gray-800 rounded-xl shadow-xl text-center">
-        <h2 class="text-xl sm:text-2xl font-bold mb-4 text-yellow-400">⏳ Match Starts In:</h2>
-        <div id="countdown" class="text-2xl font-bold text-white">00:00:00</div>
-    </div>
-
-    <!-- Live Poll: Who Will Win? -->
+    <!-- Poll Section (Options side by side) -->
     <div class="w-full max-w-3xl mt-6 p-6 bg-gray-800 rounded-xl shadow-xl">
         <h2 class="text-xl sm:text-2xl font-bold mb-4 text-yellow-400 text-center">🚀 Who Will Win?</h2>
         
-        <!-- Poll Options -->
-        <div class="w-full bg-black rounded-lg shadow-xl p-4">
-            <div class="flex flex-col gap-6">
-                <!-- Sunrisers Hyderabad Option -->
-                <div class="w-full p-4">
-                    <div class="relative">
-                        <button id="sunrisersButton" class="w-full py-4 text-lg font-bold text-white rounded-lg shadow-lg bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 transition-all duration-300">
-                            Sunrisers Hyderabad
-                        </button>
-                        <div class="w-full bg-gray-300 rounded-full h-3 mt-2">
-                            <div id="sunrisersProgress" class="h-3 bg-orange-500 rounded-full"></div>
-                        </div>
-                    </div>
+        <!-- Poll Options in Flex -->
+        <div class="flex gap-6 justify-center">
+            <!-- Sunrisers Hyderabad Option -->
+            <div class="w-full p-4">
+                <button id="sunrisersButton" class="w-full py-4 text-lg font-bold text-white rounded-lg shadow-lg bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 transition-all duration-300">
+                    Sunrisers Hyderabad
+                </button>
+                <div class="w-full bg-gray-300 rounded-full h-3 mt-2">
+                    <div id="sunrisersProgress" class="h-3 bg-orange-500 rounded-full"></div>
                 </div>
+            </div>
 
-                <!-- Rajasthan Royals Option -->
-                <div class="w-full p-4">
-                    <div class="relative">
-                        <button id="rajasthanRoyalsButton" class="w-full py-4 text-lg font-bold text-white rounded-lg shadow-lg bg-pink-500 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-400 mt-4">
-                            Rajasthan Royals
-                        </button>
-                        <div class="w-full bg-gray-300 rounded-full h-3 mt-2">
-                            <div id="rajasthanProgress" class="h-3 bg-pink-500 rounded-full"></div>
-                        </div>
-                    </div>
+            <!-- Rajasthan Royals Option -->
+            <div class="w-full p-4">
+                <button id="rajasthanRoyalsButton" class="w-full py-4 text-lg font-bold text-white rounded-lg shadow-lg bg-pink-500 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-400 mt-4">
+                    Rajasthan Royals
+                </button>
+                <div class="w-full bg-gray-300 rounded-full h-3 mt-2">
+                    <div id="rajasthanProgress" class="h-3 bg-pink-500 rounded-full"></div>
                 </div>
             </div>
         </div>
-        <div id="totalVotes" class="text-white text-center mt-4">
-            Total Votes: 0
-        </div>
     </div>
 
-    <!-- Upcoming Matches -->
-    <div class="w-full max-w-3xl mt-6 p-6 bg-gray-800 rounded-xl shadow-xl text-center">
-        <h2 class="text-xl sm:text-2xl font-bold mb-4 text-yellow-400">📅 Upcoming Matches</h2>
-        <div class="text-white">
-            <p>March 25, 2025: Delhi Capitals vs Kolkata Knight Riders</p>
-            <p>March 27, 2025: Mumbai Indians vs Chennai Super Kings</p>
-        </div>
-    </div>
+    <!-- Upcoming Matches Section -->
+    <div class="w-full max-w-3xl text-center p-6 bg-gradient-to-r from-green-500 to-blue-700 rounded-xl shadow-xl mt-6">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-white">🚨 Upcoming Matches 🚨</h2>
+        <p class="text-md sm:text-lg text-white mb-4">Stay tuned for the next exciting matches!</p>
 
-    <!-- Join the Deals Master Box -->
-    <div class="w-full max-w-3xl text-center p-6 bg-gradient-to-r from-blue-600 to-purple-800 rounded-xl shadow-xl mt-6">
-        <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-white">🔥 Join Telegram 🔥</h2>
-        <p class="text-md sm:text-lg text-white mb-4">Exclusive IPL Updates & Deals</p>
-        
-        <!-- Buttons Side by Side -->
-        <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="https://t.me/+sGRz3K6wPHM1ZmRl" target="_blank" 
-               class="w-full sm:w-auto text-lg font-bold px-6 py-3 bg-yellow-400 text-gray-900 rounded-full shadow-lg hover:bg-yellow-500 transition duration-300 text-center">
-                TheDealsMaster
-            </a>
-
-            <a href="https://t.me/IPL_Stream" target="_blank" 
-               class="w-full sm:w-auto text-lg font-bold px-6 py-3 bg-green-400 text-gray-900 rounded-full shadow-lg hover:bg-green-500 transition duration-300 text-center">
-                More IPL Links
-            </a>
+        <!-- Upcoming Matches List -->
+        <div id="upcomingMatches" class="text-white">
+            <!-- Matches will be inserted here dynamically -->
         </div>
     </div>
 
     <script>
-        // Countdown Timer
-        const countdownElement = document.getElementById("countdown");
-        const matchTime = new Date("2025-03-23T15:30:00Z"); // Set match date/time (example)
-        function updateCountdown() {
-            const now = new Date();
-            const timeDifference = matchTime - now;
-            const hours = Math.floor(timeDifference / (1000 * 60 * 60));
-            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-            countdownElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            if (timeDifference <= 0) {
-                countdownElement.textContent = "Match Started!";
-            }
+        // Initialize vote data from localStorage (if available)
+        let sunrisersVotes = localStorage.getItem("sunrisersVotes") ? parseInt(localStorage.getItem("sunrisersVotes")) : 0;
+        let rajasthanVotes = localStorage.getItem("rajasthanVotes") ? parseInt(localStorage.getItem("rajasthanVotes")) : 0;
+
+        // Update poll progress based on current votes
+        function updatePoll() {
+            const totalVotes = sunrisersVotes + rajasthanVotes;
+            const sunrisersPercentage = totalVotes > 0 ? (sunrisersVotes / totalVotes) * 100 : 0;
+            const rajasthanPercentage = totalVotes > 0 ? (rajasthanVotes / totalVotes) * 100 : 0;
+
+            document.getElementById("sunrisersProgress").style.width = sunrisersPercentage + "%";
+            document.getElementById("rajasthanProgress").style.width = rajasthanPercentage + "%";
         }
-        setInterval(updateCountdown, 1000);
 
-        // Voting Functionality (Firebase for live poll)
-        let sunrisersVotes = 0;
-        let rajasthanVotes = 0;
-
+        // Voting functionality
         document.getElementById("sunrisersButton").onclick = function() {
             sunrisersVotes++;
-            updateVotes();
+            localStorage.setItem("sunrisersVotes", sunrisersVotes); // Save votes in localStorage
+            updatePoll(); // Update progress bar
         };
 
         document.getElementById("rajasthanRoyalsButton").onclick = function() {
             rajasthanVotes++;
-            updateVotes();
+            localStorage.setItem("rajasthanVotes", rajasthanVotes); // Save votes in localStorage
+            updatePoll(); // Update progress bar
         };
 
-        function updateVotes() {
-            const totalVotes = sunrisersVotes + rajasthanVotes;
-            const sunrisersPercentage = (sunrisersVotes / totalVotes) * 100 || 0;
-            const rajasthanPercentage = (rajasthanVotes / totalVotes) * 100 || 0;
+        // Initial update on page load
+        updatePoll();
 
-            document.getElementById("sunrisersProgress").style.width = sunrisersPercentage + "%";
-            document.getElementById("rajasthanProgress").style.width = rajasthanPercentage + "%";
-            document.getElementById("totalVotes").textContent = `Total Votes: ${totalVotes}`;
+        // List of upcoming matches with date and teams
+        const upcomingMatches = [
+            { date: "2025-03-24", team1: "Sunrisers Hyderabad", team2: "Rajasthan Royals" },
+            { date: "2025-03-25", team1: "Mumbai Indians", team2: "Delhi Capitals" },
+            { date: "2025-03-26", team1: "Chennai Super Kings", team2: "Royal Challengers Bangalore" },
+            { date: "2025-03-27", team1: "Kolkata Knight Riders", team2: "Punjab Kings" },
+            // Add more upcoming matches here
+        ];
+
+        // Function to format the date
+        function formatDate(dateStr) {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const date = new Date(dateStr);
+            return date.toLocaleDateString(undefined, options);
         }
+
+        // Function to display upcoming matches
+        function displayUpcomingMatches() {
+            const matchesContainer = document.getElementById("upcomingMatches");
+            const today = new Date();
+            upcomingMatches.forEach(match => {
+                const matchDate = new Date(match.date);
+                if (matchDate >= today) {  // Only show future matches
+                    const formattedDate = formatDate(match.date);
+                    const matchElement = document.createElement("div");
+                    matchElement.classList.add("p-4", "mb-4", "bg-gray-800", "rounded-lg", "shadow-lg");
+                    matchElement.innerHTML = `
+                        <h3 class="text-xl font-semibold">${match.team1} vs ${match.team2}</h3>
+                        <p class="text-md mt-2">Date: ${formattedDate}</p>
+                    `;
+                    matchesContainer.appendChild(matchElement);
+                }
+            });
+        }
+
+        // Call the function to display matches
+        displayUpcomingMatches();
     </script>
 
 </body>
