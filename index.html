@@ -31,14 +31,33 @@
         </div>
     </div>
 
-    <!-- Poll Section (Options side by side) -->
+    <!-- Join Telegram Box (Moved below the video) -->
+    <div class="w-full max-w-3xl text-center p-6 bg-gradient-to-r from-blue-600 to-purple-800 rounded-xl shadow-xl mt-6">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-white">🔥 Join Telegram 🔥</h2>
+        <p class="text-md sm:text-lg text-white mb-4">Exclusive IPL Updates & Deals</p>
+        
+        <!-- Buttons Side by Side -->
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="https://t.me/+sGRz3K6wPHM1ZmRl" target="_blank" 
+               class="w-full sm:w-auto text-lg font-bold px-6 py-3 bg-yellow-400 text-gray-900 rounded-full shadow-lg hover:bg-yellow-500 transition duration-300 text-center">
+                TheDealsMaster
+            </a>
+
+            <a href="https://t.me/IPL_Stream" target="_blank" 
+               class="w-full sm:w-auto text-lg font-bold px-6 py-3 bg-green-400 text-gray-900 rounded-full shadow-lg hover:bg-green-500 transition duration-300 text-center">
+                More IPL Links
+            </a>
+        </div>
+    </div>
+
+    <!-- Poll Section (Options aligned in one line) -->
     <div class="w-full max-w-3xl mt-6 p-6 bg-gray-800 rounded-xl shadow-xl">
         <h2 class="text-xl sm:text-2xl font-bold mb-4 text-yellow-400 text-center">🚀 Who Will Win?</h2>
         
-        <!-- Poll Options in Flex -->
-        <div class="flex gap-6 justify-center">
+        <!-- Poll Options in One Line -->
+        <div class="flex justify-between">
             <!-- Sunrisers Hyderabad Option -->
-            <div class="w-full p-4">
+            <div class="w-1/2 p-4">
                 <button id="sunrisersButton" class="w-full py-4 text-lg font-bold text-white rounded-lg shadow-lg bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 transition-all duration-300">
                     Sunrisers Hyderabad
                 </button>
@@ -48,7 +67,7 @@
             </div>
 
             <!-- Rajasthan Royals Option -->
-            <div class="w-full p-4">
+            <div class="w-1/2 p-4">
                 <button id="rajasthanRoyalsButton" class="w-full py-4 text-lg font-bold text-white rounded-lg shadow-lg bg-pink-500 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-400 mt-4">
                     Rajasthan Royals
                 </button>
@@ -67,25 +86,6 @@
         <!-- Upcoming Matches List -->
         <div id="upcomingMatches" class="text-white">
             <!-- Matches will be inserted here dynamically -->
-        </div>
-    </div>
-
-    <!-- Join Telegram Box -->
-    <div class="w-full max-w-3xl text-center p-6 bg-gradient-to-r from-blue-600 to-purple-800 rounded-xl shadow-xl mt-6">
-        <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-white">🔥 Join Telegram 🔥</h2>
-        <p class="text-md sm:text-lg text-white mb-4">Exclusive IPL Updates & Deals</p>
-        
-        <!-- Buttons Side by Side -->
-        <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="https://t.me/+sGRz3K6wPHM1ZmRl" target="_blank" 
-               class="w-full sm:w-auto text-lg font-bold px-6 py-3 bg-yellow-400 text-gray-900 rounded-full shadow-lg hover:bg-yellow-500 transition duration-300 text-center">
-                TheDealsMaster
-            </a>
-
-            <a href="https://t.me/IPL_Stream" target="_blank" 
-               class="w-full sm:w-auto text-lg font-bold px-6 py-3 bg-green-400 text-gray-900 rounded-full shadow-lg hover:bg-green-500 transition duration-300 text-center">
-                More IPL Links
-            </a>
         </div>
     </div>
 
@@ -183,6 +183,9 @@
             }
         };
     </script>
+
+</body>
+</html>
 
 </body>
 </html>
