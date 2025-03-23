@@ -3,40 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live IPL Streaming</title>
+    <title>IPL Voting Poll</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen px-4">
-
-    <!-- Popup -->
-    <div id="popup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-        <div class="bg-white text-gray-900 p-6 rounded-lg shadow-lg w-11/12 max-w-md text-center">
-            <h2 class="text-xl font-semibold mb-4">Join TheDealsMaster on Telegram for Best Deals!</h2>
-            <div class="flex justify-center gap-4">
-                <button id="okButton" class="px-6 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600">OK</button>
-                <button id="cancelButton" class="px-6 py-2 bg-gray-300 text-gray-900 rounded-lg shadow hover:bg-gray-400">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Video Player -->
-    <div class="w-full max-w-3xl mt-6 p-4 bg-black rounded-xl shadow-xl">
-        <h2 class="text-lg sm:text-xl font-semibold text-blue-400 mb-2 text-center">📺 Live IPL Streaming</h2>
-        <div class="relative w-full">
-            <video id="videoPlayer" class="w-full h-auto rounded-lg shadow-lg" controls autoplay>
-                <source src="https://v18tataplaysyndication.akamaized.net/bpk-tv/Sports18_1_HD_voot_MOB/output03/hdntl=exp=1742737928~acl=%2f*~data=hdntl~hmac=997439ed3aa23998094bf472b25ff9f25932e5a336ab2b96eb0ca41de41292a7/Sports18_1_HD_voot_MOB-audio_108038_eng=108000-video=2297600.m3u8" type="application/x-mpegURL">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-    </div>
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen">
 
     <!-- Poll Section -->
     <div class="w-full max-w-3xl mt-6 p-6 bg-gray-800 rounded-xl shadow-xl">
         <h2 class="text-xl sm:text-2xl font-bold mb-4 text-yellow-400 text-center">🚀 Who Will Win?</h2>
-        
+
         <!-- Display Total Votes -->
-        <div class="absolute top-6 right-6 text-white text-lg font-semibold" id="totalVotes">
+        <div class="absolute top-6 right-6 text-black text-lg font-semibold" id="totalVotes">
             Total Votes: 0
         </div>
 
@@ -70,90 +49,60 @@
         </div>
     </div>
 
-    <!-- Join Telegram Box -->
-    <div class="w-full max-w-3xl text-center p-6 bg-gradient-to-r from-blue-600 to-purple-800 rounded-xl shadow-xl mt-6">
-        <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-white">🔥 Join Telegram 🔥</h2>
-        <p class="text-md sm:text-lg text-white mb-4">Exclusive IPL Updates & Deals</p>
-        
-        <!-- Buttons Side by Side -->
-        <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="https://t.me/+sGRz3K6wPHM1ZmRl" target="_blank" 
-               class="w-full sm:w-auto text-lg font-bold px-6 py-3 bg-yellow-400 text-gray-900 rounded-full shadow-lg hover:bg-yellow-500 transition duration-300 text-center">
-                TheDealsMaster
-            </a>
-
-            <a href="https://t.me/IPL_Stream" target="_blank" 
-               class="w-full sm:w-auto text-lg font-bold px-6 py-3 bg-green-400 text-gray-900 rounded-full shadow-lg hover:bg-green-500 transition duration-300 text-center">
-                More IPL Links
-            </a>
-        </div>
-    </div>
-
-    <!-- Copy Link & Share Section -->
-    <div class="w-full max-w-3xl text-center p-6 bg-gray-800 rounded-xl shadow-xl mt-6">
-        <h2 class="text-xl sm:text-2xl font-bold mb-4 text-yellow-400">📢 Copy Link & Open in Chrome Browser Only</h2>
-        <button id="shareButton" class="w-full sm:w-auto text-lg font-bold px-6 py-3 bg-pink-500 text-white rounded-full shadow-lg hover:bg-pink-600 transition duration-300">
-            Click Here to Share This Page Link 😍
-        </button>
-    </div>
-
     <script>
-        // Initialize vote data from localStorage (if available)
-        let sunrisersVotes = localStorage.getItem("sunrisersVotes") ? parseInt(localStorage.getItem("sunrisersVotes")) : 0;
-        let rajasthanVotes = localStorage.getItem("rajasthanVotes") ? parseInt(localStorage.getItem("rajasthanVotes")) : 0;
+        // Firebase configuration (you'll find this in your Firebase console)
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
 
-        // Total votes will be the sum of sunrisersVotes and rajasthanVotes
-        let totalVotes = sunrisersVotes + rajasthanVotes;
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore(app);
 
-        // Function to update the progress bar and total votes
-        function updatePoll() {
+        // Function to fetch votes from Firestore
+        async function fetchVotes() {
+            const sunrisersDoc = await db.collection('votes').doc('sunrisers').get();
+            const rajasthanDoc = await db.collection('votes').doc('rajasthan').get();
+
+            const sunrisersVotes = sunrisersDoc.data().votes;
+            const rajasthanVotes = rajasthanDoc.data().votes;
             const totalVotes = sunrisersVotes + rajasthanVotes;
-            const sunrisersPercentage = totalVotes > 0 ? (sunrisersVotes / totalVotes) * 100 : 0;
-            const rajasthanPercentage = totalVotes > 0 ? (rajasthanVotes / totalVotes) * 100 : 0;
+
+            const sunrisersPercentage = (sunrisersVotes / totalVotes) * 100 || 0;
+            const rajasthanPercentage = (rajasthanVotes / totalVotes) * 100 || 0;
 
             document.getElementById("sunrisersProgress").style.width = sunrisersPercentage + "%";
             document.getElementById("rajasthanProgress").style.width = rajasthanPercentage + "%";
-
-            // Update the total votes display
             document.getElementById("totalVotes").textContent = `Total Votes: ${totalVotes}`;
         }
 
-        // Voting functionality
-        document.getElementById("sunrisersButton").onclick = function() {
-            sunrisersVotes++;
-            localStorage.setItem("sunrisersVotes", sunrisersVotes); // Save votes in localStorage
-            totalVotes++; // Increment total votes
-            localStorage.setItem("totalVotes", totalVotes); // Save total votes
-            updatePoll(); // Update progress bar
-        };
+        // Function to vote for Sunrisers Hyderabad
+        async function voteSunrisers() {
+            await db.collection('votes').doc('sunrisers').update({
+                votes: firebase.firestore.FieldValue.increment(1)
+            });
+            fetchVotes(); // Update the votes after voting
+        }
 
-        document.getElementById("rajasthanRoyalsButton").onclick = function() {
-            rajasthanVotes++;
-            localStorage.setItem("rajasthanVotes", rajasthanVotes); // Save votes in localStorage
-            totalVotes++; // Increment total votes
-            localStorage.setItem("totalVotes", totalVotes); // Save total votes
-            updatePoll(); // Update progress bar
-        };
+        // Function to vote for Rajasthan Royals
+        async function voteRajasthan() {
+            await db.collection('votes').doc('rajasthan').update({
+                votes: firebase.firestore.FieldValue.increment(1)
+            });
+            fetchVotes(); // Update the votes after voting
+        }
 
-        // Initial update on page load
-        updatePoll();
+        // Event listeners for voting buttons
+        document.getElementById("sunrisersButton").onclick = voteSunrisers;
+        document.getElementById("rajasthanRoyalsButton").onclick = voteRajasthan;
 
-        // Share Button Functionality
-        document.getElementById("shareButton").onclick = function() {
-            if (navigator.share) {
-                navigator.share({
-                    title: "Live IPL Streaming",
-                    text: "Check out this live match streaming links only on Telegram channel:",
-                    url: "https://t.me/IPL_Stream"
-                }).then(() => {
-                    console.log("Shared successfully");
-                }).catch((error) => {
-                    console.error("Error sharing:", error);
-                });
-            } else {
-                alert("Sharing is not supported on this browser.");
-            }
-        };
+        // Initial call to fetch votes
+        fetchVotes();
     </script>
 
 </body>
