@@ -5,86 +5,140 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live IPL Streaming</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen p-4">
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen px-4">
 
-    <!-- Video Player -->
-    <div class="w-full max-w-2xl mt-6 p-4 bg-black rounded-xl shadow-xl">
-        <h2 class="text-xl font-semibold text-blue-400 mb-2">Live IPL Streaming</h2>
-        <video id="videoPlayer" class="w-full rounded-lg shadow-lg" controls autoplay>
-            <source src="https://v18tataplaysyndication.akamaized.net/bpk-tv/Sports18_1_HD_voot_MOB/output03/hdntl=exp=1742737928~acl=%2f*~data=hdntl~hmac=997439ed3aa23998094bf472b25ff9f25932e5a336ab2b96eb0ca41de41292a7/Sports18_1_HD_voot_MOB-audio_108038_eng=108000-video=2297600.m3u8" type="application/x-mpegURL">
-            Your browser does not support the video tag.
-        </video>
+    <!-- Popup -->
+    <div id="popup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white text-gray-900 p-6 rounded-lg shadow-lg w-11/12 max-w-md text-center">
+            <h2 class="text-xl font-semibold mb-4">Join TheDealsMaster on Telegram for Best Deals!</h2>
+            <div class="flex justify-center gap-4">
+                <button id="okButton" class="px-6 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600">OK</button>
+                <button id="cancelButton" class="px-6 py-2 bg-gray-300 text-gray-900 rounded-lg shadow hover:bg-gray-400">Cancel</button>
+            </div>
+        </div>
     </div>
 
-    <!-- Report Broken Links Button (Smaller, Positioned Below Video) -->
-    <div class="mt-2 self-end pr-4">
-        <button onclick="reportBrokenLink()" class="px-3 py-1 text-xs bg-red-600 text-white rounded shadow-md hover:bg-red-700">Report Broken Link, Please Refresh Page Before Reporting.</button>
+    <!-- Video Player -->
+    <div class="w-full max-w-3xl mt-6 p-4 bg-black rounded-xl shadow-xl">
+        <h2 class="text-lg sm:text-xl font-semibold text-blue-400 mb-2 text-center">📺 Live IPL Streaming</h2>
+        <div class="relative w-full">
+            <video id="videoPlayer" class="w-full h-auto rounded-lg shadow-lg" controls autoplay>
+                <source src="https://v18tataplaysyndication.akamaized.net/bpk-tv/Sports18_1_HD_voot_MOB/output03/hdntl=exp=1742737928~acl=%2f*~data=hdntl~hmac=997439ed3aa23998094bf472b25ff9f25932e5a336ab2b96eb0ca41de41292a7/Sports18_1_HD_voot_MOB-audio_108038_eng=108000-video=2297600.m3u8" type="application/x-mpegURL">
+                Your browser does not support the video tag.
+            </video>
+        </div>
     </div>
 
     <!-- Poll Section -->
-    <div class="w-full max-w-md text-center p-6 bg-gray-800 rounded-xl shadow-xl mt-6">
-        <h2 class="text-xl font-semibold text-blue-400 mb-2">Vote for Today's Match</h2>
-        <p class="text-lg text-white mb-4">Who will win?</p>
-        <div class="flex justify-center space-x-4">
-            <button onclick="vote('SRH')" class="px-6 py-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-300">Team 1</button>
-            <button onclick="vote('RR')" class="px-6 py-3 bg-green-500 text-white rounded-full shadow-lg hover:bg-green-600 transition duration-300">Team 2</button>
+    <div class="w-full max-w-3xl mt-6 p-6 bg-gray-800 rounded-xl shadow-xl">
+        <h2 class="text-xl sm:text-2xl font-bold mb-4 text-yellow-400 text-center">🚀 Who Will Win?</h2>
+        
+        <!-- Poll Options -->
+        <div class="w-full bg-black rounded-lg shadow-xl p-4">
+            <div class="flex flex-col gap-6">
+                <!-- Sunrisers Hyderabad Option -->
+                <div class="w-full p-4">
+                    <div class="relative">
+                        <button id="sunrisersButton" class="w-full py-4 text-lg font-bold text-white rounded-lg shadow-lg bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 transition-all duration-300">
+                            Sunrisers Hyderabad
+                        </button>
+                        <div class="w-full bg-gray-300 rounded-full h-3 mt-2">
+                            <div id="sunrisersProgress" class="h-3 bg-orange-500 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rajasthan Royals Option -->
+                <div class="w-full p-4">
+                    <div class="relative">
+                        <button id="rajasthanRoyalsButton" class="w-full py-4 text-lg font-bold text-white rounded-lg shadow-lg bg-pink-500 hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-400 mt-4">
+                            Rajasthan Royals
+                        </button>
+                        <div class="w-full bg-gray-300 rounded-full h-3 mt-2">
+                            <div id="rajasthanProgress" class="h-3 bg-pink-500 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <p id="poll-results" class="text-lg text-white mt-4">Fetching results...</p>
     </div>
 
-    <!-- Join Telegram Section -->
-    <div class="w-full max-w-md text-center p-6 bg-gradient-to-r from-blue-600 to-purple-800 rounded-xl shadow-xl mt-6">
-        <h2 class="text-3xl font-bold mb-4 text-white">🔥 Join Telegram 🔥</h2>
-        <p class="text-lg text-white mb-4">Exclusive IPL Updates & Deals</p>
-        <div class="flex justify-center space-x-4">
-            <a href="https://t.me/+sGRz3K6wPHM1ZmRl" target="_blank" class="text-lg font-bold px-6 py-3 bg-yellow-400 text-gray-900 rounded-full shadow-lg hover:bg-yellow-500 transition duration-300">TheDealsMaster</a>
-            <a href="https://t.me/IPL_Stream" target="_blank" class="text-lg font-bold px-6 py-3 bg-green-400 text-gray-900 rounded-full shadow-lg hover:bg-green-500 transition duration-300">IPL Links</a>
+    <!-- Join Telegram Box -->
+    <div class="w-full max-w-3xl text-center p-6 bg-gradient-to-r from-blue-600 to-purple-800 rounded-xl shadow-xl mt-6">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-4 text-white">🔥 Join Telegram 🔥</h2>
+        <p class="text-md sm:text-lg text-white mb-4">Exclusive IPL Updates & Deals</p>
+        
+        <!-- Buttons Side by Side -->
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="https://t.me/+sGRz3K6wPHM1ZmRl" target="_blank" 
+               class="w-full sm:w-auto text-lg font-bold px-6 py-3 bg-yellow-400 text-gray-900 rounded-full shadow-lg hover:bg-yellow-500 transition duration-300 text-center">
+                TheDealsMaster
+            </a>
+
+            <a href="https://t.me/IPL_Stream" target="_blank" 
+               class="w-full sm:w-auto text-lg font-bold px-6 py-3 bg-green-400 text-gray-900 rounded-full shadow-lg hover:bg-green-500 transition duration-300 text-center">
+                More IPL Links
+            </a>
         </div>
     </div>
 
-    <!-- Copy & Share Section -->
-    <div class="w-full max-w-md text-center p-4 mt-4 bg-gray-700 rounded-xl shadow-md">
-        <h2 class="text-lg font-semibold text-white">Copy Link & Open in Chrome Browser Only</h2>
-        <button onclick="sharePage()" class="w-full mt-2 px-6 py-3 bg-blue-500 text-white rounded-full shadow-md hover:bg-blue-600 transition duration-300">Click Here to Share This Page Link 😍</button>
+    <!-- Copy Link & Share Section -->
+    <div class="w-full max-w-3xl text-center p-6 bg-gray-800 rounded-xl shadow-xl mt-6">
+        <h2 class="text-xl sm:text-2xl font-bold mb-4 text-yellow-400">📢 Copy Link & Open in Chrome Browser Only</h2>
+        <button id="shareButton" class="w-full sm:w-auto text-lg font-bold px-6 py-3 bg-pink-500 text-white rounded-full shadow-lg hover:bg-pink-600 transition duration-300">
+            Click Here to Share This Page Link 😍
+        </button>
     </div>
 
     <script>
-        function reportBrokenLink() {
-            alert("Broken link reported!");
-            fetch("https://api.telegram.org/bot8072988182:AAGqwl2heCQZnlYhu7TsvyT_4ZNAwSbGbuU/sendMessage?chat_id=-1001140305679&text=Broken Link Reported");
+        // Initialize vote data from localStorage (if available)
+        let sunrisersVotes = localStorage.getItem("sunrisersVotes") ? parseInt(localStorage.getItem("sunrisersVotes")) : 0;
+        let rajasthanVotes = localStorage.getItem("rajasthanVotes") ? parseInt(localStorage.getItem("rajasthanVotes")) : 0;
+
+        // Update poll progress based on current votes
+        function updatePoll() {
+            const totalVotes = sunrisersVotes + rajasthanVotes;
+            const sunrisersPercentage = totalVotes > 0 ? (sunrisersVotes / totalVotes) * 100 : 0;
+            const rajasthanPercentage = totalVotes > 0 ? (rajasthanVotes / totalVotes) * 100 : 0;
+
+            document.getElementById("sunrisersProgress").style.width = sunrisersPercentage + "%";
+            document.getElementById("rajasthanProgress").style.width = rajasthanPercentage + "%";
         }
 
-        function vote(team) {
-            let lastVoteTime = localStorage.getItem('lastVoteTime') || 0;
-            let currentTime = new Date().getTime();
-            if (currentTime - lastVoteTime < 10000) {
-                alert('You can vote again after 10 seconds!');
-                return;
+        // Voting functionality
+        document.getElementById("sunrisersButton").onclick = function() {
+            sunrisersVotes++;
+            localStorage.setItem("sunrisersVotes", sunrisersVotes); // Save votes in localStorage
+            updatePoll(); // Update progress bar
+        };
+
+        document.getElementById("rajasthanRoyalsButton").onclick = function() {
+            rajasthanVotes++;
+            localStorage.setItem("rajasthanVotes", rajasthanVotes); // Save votes in localStorage
+            updatePoll(); // Update progress bar
+        };
+
+        // Initial update on page load
+        updatePoll();
+
+        // Share Button Functionality
+        document.getElementById("shareButton").onclick = function() {
+            if (navigator.share) {
+                navigator.share({
+                    title: "Live IPL Streaming",
+                    text: "Check out this live match streaming links only on Telegram channel:",
+                    url: "https://t.me/IPL_Stream"
+                }).then(() => {
+                    console.log("Shared successfully");
+                }).catch((error) => {
+                    console.error("Error sharing:", error);
+                });
+            } else {
+                alert("Sharing is not supported on this browser.");
             }
-            localStorage.setItem('lastVoteTime', currentTime);
-            fetch(`https://your-free-poll-api.com/vote?team=${team}`)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('poll-results').innerText = `Team 1: ${data.SRH}% | Team 2: ${data.RR}%`;
-                });
-        }
-
-        setInterval(() => {
-            fetch(`https://your-free-poll-api.com/results`)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('poll-results').innerText = `Team 1: ${data.SRH}% | Team 2: ${data.RR}%`;
-                });
-        }, 30000);
-
-        function sharePage() {
-            navigator.share({
-                title: "Live IPL Streaming",
-                text: "Check out this live match streaming links only on telegram channel:",
-                url: "https://t.me/IPl_Stream"
-            }).catch(err => console.log('Sharing failed', err));
-        }
+        };
     </script>
 
 </body>
