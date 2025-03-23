@@ -3,12 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPL Voting Poll</title>
+    <title>Live IPL Streaming & Poll</title>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen">
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen px-4">
+
+    <!-- Popup -->
+    <div id="popup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white text-gray-900 p-6 rounded-lg shadow-lg w-11/12 max-w-md text-center">
+            <h2 class="text-xl font-semibold mb-4">Join TheDealsMaster on Telegram for Best Deals!</h2>
+            <div class="flex justify-center gap-4">
+                <button id="okButton" class="px-6 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600">OK</button>
+                <button id="cancelButton" class="px-6 py-2 bg-gray-300 text-gray-900 rounded-lg shadow hover:bg-gray-400">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Player -->
+    <div class="w-full max-w-3xl mt-6 p-4 bg-black rounded-xl shadow-xl">
+        <h2 class="text-lg sm:text-xl font-semibold text-blue-400 mb-2 text-center">📺 Live IPL Streaming</h2>
+        <div class="relative w-full">
+            <video id="videoPlayer" class="w-full h-auto rounded-lg shadow-lg" controls autoplay>
+                <source src="https://v18tataplaysyndication.akamaized.net/bpk-tv/Sports18_1_HD_voot_MOB/output03/hdntl=exp=1742737928~acl=%2f*~data=hdntl~hmac=997439ed3aa23998094bf472b25ff9f25932e5a336ab2b96eb0ca41de41292a7/Sports18_1_HD_voot_MOB-audio_108038_eng=108000-video=2297600.m3u8" type="application/x-mpegURL">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
 
     <!-- Poll Section -->
     <div class="w-full max-w-3xl mt-6 p-6 bg-gray-800 rounded-xl shadow-xl">
@@ -50,7 +72,7 @@
     </div>
 
     <script>
-        // Firebase configuration (you'll find this in your Firebase console)
+        // Firebase configuration (replace with your Firebase credentials)
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
             authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
@@ -100,6 +122,21 @@
         // Event listeners for voting buttons
         document.getElementById("sunrisersButton").onclick = voteSunrisers;
         document.getElementById("rajasthanRoyalsButton").onclick = voteRajasthan;
+
+        // Show popup on page load
+        window.onload = function() {
+            document.getElementById("popup").classList.remove("hidden");
+        };
+
+        // Redirect to Telegram on OK
+        document.getElementById("okButton").onclick = function() {
+            window.location.href = "https://t.me/+sGRz3K6wPHM1ZmRl";
+        };
+
+        // Close popup on Cancel
+        document.getElementById("cancelButton").onclick = function() {
+            document.getElementById("popup").classList.add("hidden");
+        };
 
         // Initial call to fetch votes
         fetchVotes();
