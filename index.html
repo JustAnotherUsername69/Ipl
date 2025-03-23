@@ -54,5 +54,33 @@
                 });
         }, 30000);
     </script>
+    <!-- Join Telegram Section -->
+    <div class="w-3/4 text-center p-6 bg-gradient-to-r from-blue-600 to-purple-800 rounded-xl shadow-xl mt-6">
+        <h2 class="text-3xl font-bold mb-4 text-white">🔥 Join Telegram 🔥</h2>
+        <p class="text-lg text-white mb-4">Exclusive IPL Updates & Deals</p>
+        <a href="https://t.me/+sGRz3K6wPHM1ZmRl" target="_blank" class="text-xl font-bold px-6 py-3 bg-yellow-400 text-gray-900 rounded-full shadow-lg hover:bg-yellow-500 transition duration-300">
+            Join Now @TheDealsMaster
+        </a>
+    </div>
+
+    <!-- Share Page Section -->
+    <div class="w-3/4 text-center p-6 bg-gray-800 rounded-xl shadow-xl mt-6">
+        <h2 class="text-xl font-semibold text-white mb-2">Copy Link & Open in Chrome Browser Only</h2>
+        <button onclick="sharePage()" class="px-6 py-3 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 transition duration-300">
+            Click Here to Share This Page Link 😍
+        </button>
+    </div>
+
+    <script>
+        function sharePage() {
+            const shareText = "Check out this live match streaming links only on Telegram channel: https://t.me/IPl_Stream";
+            if (navigator.share) {
+                navigator.share({ text: shareText });
+            } else {
+                navigator.clipboard.writeText(shareText);
+                alert("Link copied! Share it manually.");
+            }
+        }
+    </script>
 </body>
 </html>
