@@ -9,10 +9,10 @@
 </head>
 <body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen px-4">
 
-    <!-- Popup -->
-    <div id="popup">
-        <div class="popup-content">
-            <h2 class="text-xl font-semibold mb-4">Join <span class="text-blue-500">TheDealsMaster</span> on Telegram for Best Deals!</h2>
+ <!-- Popup -->
+    <div id="popup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white text-gray-900 p-6 rounded-lg shadow-lg w-11/12 max-w-md text-center">
+            <h2 class="text-xl font-semibold mb-4">Join TheDealsMaster on Telegram for Best Deals!</h2>
             <div class="flex justify-center gap-4">
                 <button id="okButton" class="px-6 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600">OK</button>
                 <button id="cancelButton" class="px-6 py-2 bg-gray-300 text-gray-900 rounded-lg shadow hover:bg-gray-400">Cancel</button>
@@ -29,6 +29,11 @@
                 Your browser does not support the video tag.
             </video>
         </div>
+    </div>
+
+<!-- Report Broken Links Button (Smaller, Positioned Below Video) -->
+    <div class="mt-2 self-end pr-4">
+        <button onclick="reportBrokenLink()" class="px-3 py-1 text-xs bg-red-600 text-white rounded shadow-md hover:bg-red-700">Report Broken Link, Please Refresh Page Before Reporting.</button>
     </div>
 
 <!-- Join Telegram Section -->
@@ -90,6 +95,10 @@
     </div>
 
     <script>
+        function reportBrokenLink() {
+            alert("Broken link reported!");
+            fetch("https://api.telegram.org/bot8072988182:AAGqwl2heCQZnlYhu7TsvyT_4ZNAwSbGbuU/sendMessage?chat_id=-1001140305679&text=Broken Link Reported");
+        }
         // Initialize vote data from localStorage (if available)
         let sunrisersVotes = localStorage.getItem("sunrisersVotes") ? parseInt(localStorage.getItem("sunrisersVotes")) : 0;
         let rajasthanVotes = localStorage.getItem("rajasthanVotes") ? parseInt(localStorage.getItem("rajasthanVotes")) : 0;
